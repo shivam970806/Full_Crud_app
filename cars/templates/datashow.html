@@ -1,0 +1,179 @@
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+
+<h1 style="text-align:center ">Show Table & Adding Some User Here</h1>
+
+<div class="container">
+  <div class="row">
+    <a class="btn btn-primary" data-toggle="modal" href="#myModal">Add Person</a>
+    <div class="modal fade" id="myModal" role="dialog">
+      <div class="modal-dialog model-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" style="text-align:center">Register Here New User</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label=""><span>×</span></button>
+          </div>
+
+          <div class="modal-body">
+            <div class="container">
+              <section class="section">
+                <!--Section heading-->
+                <h2 class="section-heading h1 pt-">Sign Up</h2>
+                <!--Section description-->
+                <p class="section-description">Do you have any questions? Please do not hesitate to contact us directly.
+                  Our team will come back to you within
+                  matter of hours to help you.</p>
+
+                <div class="row">
+                  <div class="col-md-12 col-xl-12">
+                    <form id="contact-form" name="contact-form" action="#" method="POST">
+
+                      <div class="row">
+                        <div class="col-md-6">
+                          <div class="md-form">
+                            <input type="text" id="fname" name="fname" class="form-control">
+                            <label class="">First Name</label>
+                          </div>
+                        </div>
+                        <!--Grid column-->
+
+                        <!--Grid column-->
+                        <div class="col-md-6">
+                          <div class="md-form">
+                            <input type="text" id="lname" name="lname" class="form-control">
+                            <label for="name" class="">Last Name</label>
+                          </div>
+                        </div>
+                      </div>
+                      <!--Grid row-->
+
+                      <!--Grid row-->
+                      <div class="row">
+                        <div class="col-md-12">
+                          <div class="md-form">
+                            <input type="text" id="email" name="email" class="form-control">
+                            <label for="email" class="">Your email</label>
+                          </div>
+                        </div>
+                        <!--Grid row-->
+
+                        <!--Grid column-->
+                        <div class="col-md-6">
+                          <div class="md-form">
+                            <input type="text" id="contact" name="Contact" class="form-control">
+                            <label for="name" class="">Contact</label>
+                          </div>
+                        </div>
+                        <!--Grid column-->
+
+                        <!--Grid column-->
+                        <div id="div_id_gender" class="form-group required col-md-6">
+                          <label for="id_gender" class="control-label col-md-4  requiredField"> Gender<span
+                              class="asteriskField">*</span> </label>
+
+                          <div class="md-form">
+                            <label class="radio-inline"> <input type="radio" name="gender" id="id_gender_1" value="M"
+                                style="margin-bottom: 10px">Male</label>
+                            <label class="radio-inline"> <input type="radio" name="gender" id="id_gender_2" value="F"
+                                style="margin-bottom: 10px">Female </label>
+                          </div>
+                        </div>
+                        <!--Grid column-->
+
+                        <!--Grid column-->
+                        <div id="bio" class="form-group required col-md-6">
+                          <div class="md-form">
+                            <textarea type="text" id="bio" name="bio" rows="2"
+                              class="form-control md-textarea"></textarea>
+                            <label for="message">Bio</label>
+                          </div>
+                        </div>
+
+                        <!--Grid row-->
+
+                        <!--Grid column-->
+                        <div class="form-group required col-md-6">
+                          <div class="md-form">
+                            <select class="input-md textinput textInput form-control" name="country" id="country">
+                              <option style="display:none;">Select</option>
+                              <option value="New Delhi">New Delhi</option>
+                              <option value="Noida">Noida</option>
+                              <option value="Lucknow">Lucknow</option>
+                              <option value="Hydrabad">Hydrabad</option>
+                            </select>
+                          </div>
+                          <label for="message">Country</label>
+                        </div>
+
+                        <!--Grid row-->
+
+                    </form>
+                  </div>
+                  <!--Grid column-->
+                </div>
+
+              </section>
+              <!--Section: Contact v.2-->
+              <div class="form-group row">
+                <button type="submit" class="btn btn-success">Submit</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <form action="#" method="post">
+    {% csrf_token %}
+    <div class="container">
+      <!-- Button trigger modal -->
+
+      <div class="row">
+        <div class="col-md-12">
+          <h4>Access the Data from Datatable</h4>
+
+
+          <div class="table-responsive">
+            <table id="mytable" class="table table-bordred table-striped">
+              <thead>
+                <th>Serial_No</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+                <th>Edit</th>
+                <th>Delete</th>
+              </thead>
+              <tbody>
+                {% for sdt in sd %}
+                <tr>
+                  <td>{{forloop.counter}}</td>
+                  <td style="display:none;">{{sdt.id}}</td>
+                  <td>{{sdt.fname}}</td>
+                  <td>{{sdt.lname}}</td>
+                  <td>{{sdt.email}}</td>
+                  <td>
+                    <p data-placement="top" data-toggle="tooltip" title="Edit">
+                      <a href="{% url 'edititem' id=sdt.id %}" class="btn btn-primary btn-xs" data-title="Edit"
+                        data-toggle="modal">
+                        <span class="glyphicon glyphicon-pencil"></span>
+                      </a>
+                    </p>
+                  </td>
+                  <td>
+                    <p data-placement="top" data-toggle="tooltip" title="Delete">
+                      <a href="{% url 'del_data' id=sdt.id%}" class="btn btn-danger btn-xs"><i class="icon trash"></i>
+                        <span class="glyphicon glyphicon-trash"></span>
+                      </a>
+                    </p>
+                  </td>
+                </tr>
+                {% endfor %}
+            </table>
+          </div>
+        </div>
+      </div>
+  </form>

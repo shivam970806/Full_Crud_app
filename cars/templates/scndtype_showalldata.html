@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Add data</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <script type="text/javascript">
+        function create_account(event) {
+            var n = document.getElementById("fname").value;
+            var ln = document.getElementById("lname").value;
+            var e = document.getElementById("e1").value;
+            var cntry = document.getElementById("country_id");
+            var cntry_v = cntry.options[cntry.selectedIndex].value;
+            var cntry_v1 = cntry.options[cntry.selectedIndex].text;
+            var hobs = document.getElementById("hobby");
+            var gndr = document.getElementById("gender");
+            var con = document.getElementById("contact").value;
+            //var gndr = document.getElementById("gender").value;
+            var bio = document.getElementById("bio").value;
+            //Code for password validation  
+            let x = document.getElementById('contact').value
+            var letters = /^[A-Za-z]+$/;
+            var phoneno = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+            var email_val = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+
+            /*//other validations required code ---1 -error show in alert box validation 
+            //if (n == '' || ln == '' || e == '' || con == '' || bio == '') {
+            // alert("Enter each details correctly");
+            //}
+            if (n == '' || !letters.test(n)) {
+                alert('For First Name Fill This Field and must be contain alphabets only');
+            }
+            else if (ln == '' || !letters.test(ln)) {
+                alert('For Second Name Fill This Field and must be contain alphabets only');
+            }
+            else if (e == '' || !email_val.test(e)) {
+                alert('Blank or Invalid email format please enter valid email id');
+            }
+            else if (cntry_v == '') {
+                alert('Please select any country');
+            }
+            else if ($('input[type=checkbox]:checked').length <= 0) {
+                alert('Please select your hobby');
+            }
+            else if (con == '' || !phoneno.test(con)) {
+                alert("Blank Or Contact Length Must Be in 10 Digits");
+            }
+            else if ($('input[name=gender]:checked').length == 0) {
+                alert('Please select your gender');
+            }
+            else if (bio == '' || !letters.test("bio")) {
+                alert("Fill This Field and Fill Bio Properly");
+            }
+            */
+           
+            if(n == ''){
+                document.getElementById('first_name').innerHTML =" **! Please Enter Your First Name";
+                return false;
+            }
+            else if(!isNaN(n)){
+                document.getElementById('first_name').innerHTML =" **! Please Enter Character Value only.";
+                return false;
+            }
+            if(ln == ''){
+                document.getElementById('last_name').innerHTML = " **! Please Enter Your Last Name";
+                return false;
+            }
+            else if(!isNaN(ln)){
+                document.getElementById('lastt_name').innerHTML =" **! Please Enter Character Value only.";
+                return false;
+            }
+            if(!isNaN(e)){
+                document.getElementById('email').innerHTML = " **! Please Enter Your Email";
+                return false;
+            }
+            
+            $.ajax({
+                url: '/showalldata',
+                type: "POST",
+                data: {csrfmiddlewaretoken: '{{ csrf_token }}',
+                    first_data: n,
+                    second_data: $('#lname').val(),
+                    email_data: $('#e1').val(),
+                    phone_data: $('#contact').val(),
+                    cntry_data: $('#country_id').val(),
+                    hobby_data: $('input[type=checkbox]:checked').val(),
+                    gender_data: $('input[name=gender]:checked').val(),
+                    bio_data: $('#bio').val(),
+                }
+            }).done(function (response) {
+                event.target.reset()
+                console.log(response)
+
+              .fail(function (response) {
+                console.log(response)
+            })
+                if (response.status == 'Success'){
+                    alert("Your Form Submitted")
+                }
+                else {
+                    alert("Form Not Submitted")
+                }
+            
+                // This is the ajax.done() method, where you can fire events after the ajax method is complete 
+
+                // For instance, you could hide/display your add/remove button here
+            });
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h2>Add Modal</h2>
+        <!-- Trigger the modal with a button -->
+        <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Add Modal</button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" role="dialog">
+            <div class="modal-dialog model-lg">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Registration Here</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12 col-xl-12">
+                                <form class="form-horizontal" id="registration-form" name="registration-form" method="POST">
+                                    {% csrf_token %}
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="md-form">
+                                                <label class="">First Name</label>
+                                                <input type="text" id="fname" name="fname" class="form-control">
+                                                <span id="first_name" style="color:red; class="text-denger font-width-bold"></span>
+                                            </div>
+                                        </div>
+                                        <!--Grid column-->
+
+                                        <!--Grid column-->
+                                        <div class="col-md-6">
+                                            <div class="md-form">
+                                                <label for="name" class="">Last Name</label>
+                                                <input type="text" id="lname" name="lname" class="form-control">
+                                                <span id="last_name" style="color:red; class="text-denger font-width-bold"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--Grid row-->
+
+                                    <!--Grid row-->
+                                    <div class="row">
+                                        <div class="col-md-12"><br>
+                                            <div class="md-form">
+                                                <label for="email" class="">Your email</label>
+                                                <input type="text" id="e1" name="email" class="form-control">
+                                                <span id="email" style="color:red; class="text-denger font-width-bold"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--Grid row-->
+
+                                    <!--Grid column-->
+                                    <div class="row">
+                                        <div class="col-md-6"><br>
+                                            <label for="message">Country</label>
+                                            <div class="md-form">
+                                                <select class="input-md textinput textInput form-control" name="country"
+                                                    id="country_id">
+                                                    <option value="">Select Country</option>
+                                                    <option value="New Delhi">New Delhi</option>
+                                                    <option value="Noida">Noida</option>
+                                                    <option value="Lucknow">Lucknow</option>
+                                                    <option value="Hydrabad">Hydrabad</option>
+                                                    <option value="Mohali">Mohali</option>
+                                                    <option value="Goa">Goa</option>
+                                                    <option value="Nagpur">Nagpur</option>
+                                                    <option value="Bangloar">Bangloar</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6"><br>
+                                            <label for="message">Hobby</label><br>
+                                            <label class="radio-inline"> <input type="checkbox" id="hobby1" name="hobby1"
+                                                    value="Reading Book"> Reading Book</label>
+                                            <label class="radio-inline"> <input type="checkbox" id="hobby2" name="hobby2"
+                                                    value="Driving"> Driving</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="row-md-12">
+                                            <div class="col-md-6">
+                                                <div class="md-form"><br>
+                                                    <label for="name">Contact</label>
+                                                    <input type="text" id="contact" name="num" class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="md-form">
+                                                    <br>
+                                                    <label>Gender</label>
+                                                    <br>
+                                                    <label class="radio-inline"><input type="radio" id="male"
+                                                            value="Male" name="gender">Male</label>
+                                                    <label class="radio-inline"><input type="radio" id="female"
+                                                            value="Female" name="gender">Female</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!--Grid column-->
+                                    <div class="row">
+                                        <div class="col-md-12"><br>
+                                            <label for="message">Bio</label>
+                                            <textarea type="text" id="bio" name="bio" rows="4"
+                                                class="form-control"></textarea>
+                                            <!--Grid row-->
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <input class="btn btn-info btn-block" type="submit" value="Submit">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $("#registration-form").on('submit', (function(e) {
+            e.preventDefault();
+            var error = false;
+            var fname = $('#fname').val();
+            if (fname == '') {
+                error = true;
+            }
+            else if (error == false){
+                $.ajax({
+                    url: '/showalldata',
+                    type: "POST",
+                    data: JSON.stringify(finalData),
+                    cache: false,
+                    processData:false,
+                    success: function(resdata) {
+                        console.log(resdata);
+                        
+                    },error: function() {
+                        
+                    }
+                });
+            }
+        }));
+    </script>
+</body>
+</html>

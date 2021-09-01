@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <script src="https://cdn.tiny.cloud/1/4ekmsespstnhbg078eq21qbqxibogd7e6wblljl0dtn6nedn/tinymce/5/tinymce.min.js"
+    referrerpolicy="origin"></script>
+  <script>
+
+    tinymce.init({
+      selector: '#mytextarea',
+      height: 500,
+      menubar: false,
+      plugins: [
+        'advlist autolink lists link image charmap print preview anchor',
+        'searchreplace visualblocks code fullscreen',
+        'insertdatetime media table paste code help wordcount'
+      ],
+      toolbar: 'undo redo | formatselect | ' +
+        'bold italic backcolor | alignleft aligncenter ' +
+        'alignright alignjustify | bullist numlist outdent indent | ' +
+        'removeformat | help',
+      content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
+    });
+  
+  </script>
+</head>
+
+<body>
+  <h1>TinyMCE Quick Start Guide</h1>
+  <form method="post">
+    <textarea id="mytextarea">Hello, World!</textarea>
+  </form>
+</body>
+
+</html>

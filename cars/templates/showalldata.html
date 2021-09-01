@@ -1,0 +1,845 @@
+<html lang="en">
+
+<head>
+    <title>Add data</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <style>
+        .error {
+            color: red;
+            font-size: 12px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <!--for resigtration-->
+    <div class="container" >
+        <h2>Add Modal</h2>
+        <!-- Trigger the modal with a button -->
+        <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Add
+            Modal</button>
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" role="dialog">
+            <div class="modal-dialog model-lg">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Registration Here</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12 col-xl-12">
+                                <form class="form-horizontal" onsubmit="return create_account()" id="registration-form"
+                                    name="registration-form" enctype="multipart/form-data" method="POST">
+                                    {% csrf_token %}
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="md-form">
+                                                <label class="">First Name</label>
+                                                <input type="text" id="fname" name="fname" class="form-control">
+                                                <span class="error" id="first_name"></span>
+                                            </div>
+                                        </div>
+                                        <!--Grid column-->
+
+                                        <!--Grid column-->
+                                        <div class="col-md-6">
+                                            <div class="md-form">
+                                                <label for="name" class="">Last Name</label>
+                                                <input type="text" id="lname" name="lname" class="form-control">
+                                                <span class="error" id="last_name"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--Grid row-->
+
+                                    <!--Grid row-->
+                                    <div class="row">
+                                        <div class="col-md-12"><br>
+                                            <div class="md-form">
+                                                <label for="email" class="">Your email</label>
+                                                <input type="text" id="e1" name="email" class="form-control">
+                                                <span class="error" id="email"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--Grid row-->
+
+                                    <!--Grid column-->
+                                    <div class="row">
+                                        <div class="col-md-6"><br>
+                                            <label for="message">Country</label>
+                                            <div class="md-form">
+                                                <select class="input-md textinput textInput form-control"
+                                                    name="country_reg" id="country_id">
+                                                    <option value="">Select Country</option>
+                                                    <option value="New Delhi">New Delhi</option>
+                                                    <option value="Noida">Noida</option>
+                                                    <option value="Lucknow">Lucknow</option>
+                                                    <option value="Hydrabad">Hydrabad</option>
+                                                    <option value="Mohali">Mohali</option>
+                                                    <option value="Goa">Goa</option>
+                                                    <option value="Nagpur">Nagpur</option>
+                                                    <option value="Bangloar">Bangloar</option>
+                                                </select>
+                                                <span class="error" id="country"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6"><br>
+                                            <label for="message">Hobby</label><br>
+                                            <label class="radio-inline"> <input type="checkbox" name="hobby_reg"
+                                                    id="hob1" value="ReadingBook"> Reading Book</label>
+                                            <label class="radio-inline"> <input type="checkbox" name="hobby_reg" id=hob2
+                                                    value="Driving"> Driving</label>
+                                        </div>
+                                        <span class="error" id="hob1"></span>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="row-md-12">
+                                            <div class="col-md-6">
+                                                <div class="md-form"><br>
+                                                    <label for="name">Contact</label>
+                                                    <input type="text" id="contact" name="num" class="form-control">
+                                                    <span class="error" id="phoneno"></span>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="md-form">
+                                                    <br>
+                                                    <label>Gender</label>
+                                                    <br>
+                                                    <label class="radio-inline"><input type="radio" id="g1" value="Male"
+                                                            name="gender_reg">Male</label>
+                                                    <label class="radio-inline"><input type="radio" id="g2"
+                                                            value="Female" name="gender_reg">Female</label>
+                                                </div>
+                                                <span class="error" id="gen1"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="row-md-12">
+                                            <div class="col-md-6">
+                                                <div class="md-form"><br>
+                                                    <label for="name">D.O.B</label>
+                                                    <input type="date" id="dob" name="bday" class="form-control">
+                                                    <span class="error" id="bday"></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="md-form">
+                                                    <br>
+                                                    <label>Select Image</label>
+                                                    <br>
+                                                    <input type="file" id="img" name="photo_field">
+                                                </div>
+                                                <span class="error" id="imgs"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!--Grid column-->
+                                    <div class="row">
+                                        <div class="col-md-12"><br>
+                                            <label for="message">Bio</label>
+                                            <textarea type="text" id="bio" name="bio" rows="4"
+                                                class="form-control"></textarea>
+                                            <span class="error" id="bio1"></span>
+
+                                            <!--Grid row-->
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <!--<input class="btn btn-info btn-block" onclick="create_account()" type="button"
+                                            value="Submit">-->
+                                        <a class="btn btn-warning btn-lg" style="width: 100%;"
+                                            onclick="create_account()" type="button" value="Submit"><span
+                                                class="glyphicon glyphicon-ok-sign"></span>Submit</a>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--for table show-->
+    <div class="container">
+        <!-- Button trigger modal -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="table-responsive">
+                    <table id="mytable" class="table table-bordred table-striped">
+                        <thead>
+                            <th>Serial No</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Email</th>
+                            <th>Phone No</th>
+                            <th>City</th>
+                            <th>Image</th>
+                            <th>Action</th>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--for delete and update-->
+    <div class="modal fade" id="myeditModal" role="dialog">
+        <div class="modal-dialog model-lg">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Updation </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12 col-xl-12">
+                            <form class="form-horizontal" id="update-form" name="update-form" method="POST">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="md-form">
+                                            <label class="">First Name</label>
+                                            <input type="text" id="txt_fname" name="fname" value=""
+                                                class="form-control">
+                                            <span class="error" id="first_name"></span>
+                                        </div>
+                                    </div>
+                                    <!--Grid column-->
+
+                                    <!--Grid column-->
+                                    <div class="col-md-6">
+                                        <div class="md-form">
+                                            <label for="name" class="">Last Name</label>
+                                            <input type="text" id="txt_lname" name="lname" class="form-control">
+                                            <span class="error" id="last_name"></span>
+                                        </div>
+                                        <div class="md-form">
+                                            <input type="hidden" id="txt_id" name="id" class="form-control">
+                                            <span class="error" id="last_name"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--Grid row-->
+
+                                <!--Grid row-->
+                                <div class="row">
+                                    <div class="col-md-12"><br>
+                                        <div class="md-form">
+                                            <label for="email" class="">Your email</label>
+                                            <input type="text" id="txt_email" name="email" class="form-control">
+                                            <span class="error" id="email"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--Grid row-->
+
+                                <!--Grid column-->
+                                <div class="row">
+                                    <div class="col-md-6"><br>
+                                        <label for="message">Country</label>
+                                        <div class="md-form">
+                                            <select class="input-md textinput textInput form-control" name="country"
+                                                id="text_country_id">
+                                                <option value="">Select Country</option>
+                                                <option value="New Delhi">New Delhi</option>
+                                                <option value="Noida">Noida</option>
+                                                <option value="Lucknow">Lucknow</option>
+                                                <option value="Hydrabad">Hydrabad</option>
+                                                <option value="Mohali">Mohali</option>
+                                                <option value="Goa">Goa</option>
+                                                <option value="Nagpur">Nagpur</option>
+                                                <option value="Bangloar">Bangloar</option>
+                                            </select>
+                                            <span class="error" id="country"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6"><br>
+                                        <label for="message">Hobby</label><br>
+                                        <label class="radio-inline"> <input type="checkbox" name="txt_hobby"
+                                                value="ReadingBook"> Reading Book</label>
+                                        <label class="radio-inline"> <input type="checkbox" name="txt_hobby"
+                                                value="Driving"> Driving</label>
+                                    </div>
+                                    <span class="error" id="hob1"></span>
+                                </div>
+
+                                <div class="row">
+                                    <div class="row-md-12">
+                                        <div class="col-md-6">
+                                            <div class="md-form"><br>
+                                                <label for="name">Contact</label>
+                                                <input type="text" id="txt_contact" name="num" class="form-control">
+                                                <span id="phoneno" class="error"></span>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="md-form">
+                                                <br>
+                                                <label>Gender</label>
+                                                <br>
+                                                <label class="radio-inline"><input type="radio" id="g1" value="Male"
+                                                        name="gender">Male</label>
+                                                <label class="radio-inline"><input type="radio" id="g2" value="Female"
+                                                        name="gender">Female</label>
+                                            </div>
+                                            <span id="gen1" class="error"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="row-md-12">
+                                        <div class="col-md-6">
+                                            <div class="md-form"><br>
+                                                <label for="name">D.O.B</label>
+                                                <input type="date" id="txt_dob" name="bday" class="form-control">
+                                                <span id="bday" class="error"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="md-form">
+                                                <br>
+                                                <label>Select Image</label>
+                                                <br>
+                                                <input type="file" id="img_a" name="new_img_field">
+                                            </div>
+                                            <span id="imgs" class="error"></span>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="show_img" id="show_img"></div>
+                                            <!-- <img style="display:block;" width="100%"  src="" /> -->
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--Grid column-->
+                                <div class="row">
+                                    <div class="col-md-12"><br>
+                                        <label for="message">Bio</label>
+                                        <textarea type="text" id="txt_bio" name="bio" rows="4"
+                                            class="form-control"></textarea>
+                                        <span id="bio1" class="error"></span>
+                                        <!--Grid row-->
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn btn-warning btn-lg" data-id="" style="width: 100%;"
+                                        onclick="update_account()" type="button" value="Submit"><span
+                                            class="glyphicon glyphicon-ok-sign"></span>Add</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span
+                            class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                    <h4 class="modal-title custom_align" id="Heading">Delete this entry</h4>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="del_id" value="">
+                    <div class="alert alert-danger"><span class="glyphicon glyphicon-warning-sign"></span> Are you sure
+                        you want to delete this Record?</div>
+                </div>
+                <div class="modal-footer ">
+                    <button type="button" onclick="deletedata()" class="btn btn-success"><span
+                            class="glyphicon glyphicon-ok-sign"></span> Yes</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><span
+                            class="glyphicon glyphicon-remove"></span> No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+<!--/this ajax using for Register Data-->
+<script type="text/javascript">
+    function create_account() {
+        debugger;
+        var n = document.getElementById("fname").value;
+        var ln = document.getElementById("lname").value;
+        var e = document.getElementById("e1").value;
+        var cntry = document.getElementById("country_id").value;
+        // var cntry_v = cntry.options[cntry.selectedIndex].value;
+        // var cntry_v1 = cntry.options[cntry.selectedIndex].text;
+        var hobs = $('input[name=hobby_reg]:checked').val();
+        var gndr = $('input[name=gender_reg]:checked').val();
+        var con = document.getElementById("contact").value;
+        var dob = document.getElementById("dob").value;
+        // var photo_field = document.getElementById("img").value;
+        var photo_field = $("#img").prop("files")[0];
+        console.log(photo_field);
+        // var extFile = photo_field.substr(idxDot, photo_field.length).toLowerCase();
+        // var bio = document.getElementById("bio").value;
+        var bio = tinymce.get('bio').getContent();
+        // alert(bio);
+        // console.log(bio);
+        //Code for password validation  
+        var letters = /^[A-Za-z]+$/;
+        var phoneno = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+        var email_val = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+
+        /*//other validations required code ---1 -error show in alert box validation 
+        //if (n == '' || ln == '' || e == '' || con == '' || bio == '') {
+        // alert("Enter each details correctly");
+        //}
+        if (n == '' || !letters.test(n)) {
+            alert('For First Name Fill This Field and must be contain alphabets only');
+        }
+        else if (ln == '' || !letters.test(ln)) {
+            alert('For Second Name Fill This Field and must be contain alphabets only');
+        }
+        else if (e == '' || !email_val.test(e)) {
+            alert('Blank or Invalid email format please enter valid email id');
+        }
+        else if (cntry_v == '') {
+            alert('Please select any country');
+        }
+        else if ($('input[type=checkbox]:checked').length <= 0) {
+            alert('Please select your hobby');
+        }
+        else if (con == '' || !phoneno.test(con)) {
+            alert("Blank Or Contact Length Must Be in 10 Digits");
+        }
+        else if ($('input[name=gender]:checked').length == 0) {
+            alert('Please select your gender');
+        }
+        else if (bio == '' || !letters.test("bio")) {
+            alert("Fill This Field and Fill Bio Properly");
+        }
+        */
+
+        if (n == '') {
+            $('#first_name').html('Please Enter Your First Name..!').show();
+            setTimeout(function () {
+                $('#first_name').hide(20);
+            }, 3000);
+            return false;
+        }
+        else if (!isNaN(n)) {
+            $('#first_name').html('Accept only character value').show();
+            setTimeout(function () {
+                $('#first_name').hide();
+            }, 3000);
+            return false;
+        }
+        else if (ln == '') {
+            // document.getElementById('last_name').innerHTML = " !** Please Enter Your Last Name";
+            $('#last_name').html('Please enter your last name..!').show();
+            setTimeout(function () {
+                // document.getElementById("last_name") = 'none';
+                $('#last_name').hide();
+            }, 3000);
+            return false;
+        }
+        else if (!isNaN(ln)) {
+            // document.getElementById('last_name').innerHTML = " !** Please Enter Character Value only.";
+            $("#last_name").html('Accept only character value..!').show();
+            setTimeout(function () {
+                // document.getElementById("last_name") = 'none';
+                $("#last_name").hide();
+            }, 3000);
+            return false;
+        }
+        else if (!isNaN(e)) {
+            // document.getElementById('email').innerHTML = " !** Please Enter Your Email";
+            $('#email').html('Please enter your valid email..!').show();
+            setTimeout(function () {
+                // document.getElementById("email") = 'none';
+                $("#email").hide();
+            }, 3000);
+            return false;
+        }
+        else if (e.indexOf('@') <= 0) {
+            // document.getElementById('email').innerHTML = " @ invalid Position";
+            $('#email').html('@ postion is not rigth..!').show();
+            setTimeout(function () {
+                // document.getElementById("email") = 'none';
+                $('#enail').hide();
+            }, 3000);
+            return false;
+        }
+        else if ((e.charAt(e.length - 4) != '.') && (e.charAt(e.length - 3) != '.')) {
+            // document.getElementById('email').innerHTML = "  . invalid Position";
+            $('#email').html('. postion is not rigth..!').show();
+            setTimeout(function () {
+                // document.getElementById("email") = 'none';
+                $("#email").hide();
+            }, 3000);
+            return false;
+        }
+        else if (cntry == '') {
+            // document.getElementById('country').innerHTML = " Please select country";
+            $("#country").html('Select city..!').show();
+            setTimeout(function () {
+                // document.getElementById("country") = 'none';
+                $("#country").hide();
+            }, 3000);
+            return false;
+        }
+        else if ($('input[type=checkbox]:checked').length <= 0) {
+            // document.getElementById('hob1').innerHTML = " Please select hobby";
+            $("#hob1").html('Select hobby..!').show();
+            setTimeout(function () {
+                // document.getElementById("hob1") = 'none';
+                $("#hob1").hide();
+            }, 3000);
+            return false;
+        }
+        else if (con.length != 10) {
+            // document.getElementById('phoneno').innerHTML = " !** Please Enter Your 10 Digits Phone Number ";
+            $("#phoneno").html('Enter phone no..!').show();
+            setTimeout(function () {
+                // document.getElementById("phoneno") = 'none';
+                $("#phoneno").hide();
+            }, 3000);
+            return false;
+        }
+        else if ($('input[name=gender_reg]:checked').length <= 0) {
+            // document.getElementById('gen1').innerHTML = "Please select gender";
+            $("#gen1").html('Select gender..!').show();
+            setTimeout(function () {
+                // document.getElementById("gen1") = 'none';
+                $("#gen1").hide();
+            }, 3000);
+            return false;
+        }
+        else if (dob == '') {
+            // document.getElementById('bday').innerHTML = " Select your dob ";
+            $("#bday").html('your date of birth..!').show();
+            setTimeout(function () {
+                // document.getElementById("bday") = 'none';
+                $("#bday").hide();
+
+            }, 3000);
+            return false;
+        }
+        else if (photo_field == "") {
+            // document.getElementById('imgs').innerHTML = " select image file";
+            $("#imgs").html('choose a picture..!').show();
+            setTimeout(function () {
+                // document.getElementById("imgs") = 'none';
+                $("#imgs").hide();
+
+            }, 3000);
+            // alert('error');
+            return false;
+        }
+        // else if (!(extFile == "jpg" || extFile == "jpeg" || extFile == "png")) {
+        //     // document.getElementById('imgs').innerHTML = "image file is not jpeg or png formate";
+        //     $("#imgs").html('choose only jpeg ,jpg,and png file..!').show();
+        //     setTimeout(function () {
+        //         // document.getElementById("imgs") = 'none';
+        //         $("#imgs").hide();
+        //     }, 3000);
+        //     return false;
+        // }
+        else if (bio == '') {
+            // document.getElementById('bio1').innerHTML = " write here something ";
+            $("#bio1").html('write here something..!').show();
+            setTimeout(function () {
+                // document.getElementById("bio1") = 'none';
+                $("#bio1").hide();
+            }, 3000);
+            return false;
+        }
+        else {
+            // var file = $("#img").prop("files")[0];
+            // alert(file);
+            var data = new FormData();
+            data.append("csrfmiddlewaretoken", "{{ csrf_token }}");
+            data.append("first_data", n);
+            data.append("second_data", ln);
+            data.append("email_data", e);
+            data.append("phone_data", con);
+            data.append("cntry_data", cntry);
+            data.append("hobby_data", hobs);
+            data.append("gender_data", gndr);
+            data.append("photo_field", photo_field);
+            // data.append("file", $("input[id^='img']")[0].files[0]);
+            data.append("dob_data", dob);
+            data.append("bio_data", bio);
+            $.ajax({
+                url: 'showalldata',
+                type: "POST",
+                contentType: false,
+                mimeType: "multipart/form-data",
+                data: data,
+                contentType: false, // The content type used when sending data to the server. Default is: "application/x-www-form-urlencoded"
+                processData: false, // To send DOMDocument or non processed data file it is set to false (i.e. data should not be in the form of string)
+                cache: false, // To unable request pages to be cached
+                // data: {
+                //     csrfmiddlewaretoken: '{{ csrf_token }}',
+                //     first_data: $('#fname').val(),
+                //     second_data: $('#lname').val(),
+                //     email_data: $('#e1').val(),
+                //     phone_data: $('#contact').val(),
+                //     cntry_data: $('#country_id').val(),
+                //     hobby_data: $('input[type=checkbox]:checked').val(),
+                //     gender_data: $('input[name=gender]:checked').val(),
+                //     dob_data: $('#dob').val(),
+                //     photo_field: dat,
+                //     bio_data: $('#bio').val(),
+                // }
+            }).done(function (response) {
+                alert("Your Form Submitted")
+                $("#myModal").modal('hide');
+                $('#mytable tbody').html('');  // 
+                    data_table();
+                // setTimeout(function () {
+                //     window.location.reload();
+                // }, 3000);
+                // This is the ajax.done() method, where you can fire events after the ajax method is complete 
+
+                // For instance, you could hide/display your add/remove button here
+            });
+        }
+    }
+</script>
+
+<!--This script are using for tinymce in Bio field registration-->
+<!-- <script src='https://cloud.tinymce.com/stable/tinymce.min.js'></script> -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/tinymce/4.5.1/tinymce.min.js"></script>
+<script>
+    tinymce.init({
+        selector: '#bio',
+    });
+</script>
+
+<!--This script are using for tinymce in Bio field adding editing function-->
+<!-- <script src="//cdnjs.cloudflare.com/ajax/libs/tinymce/4.5.1/tinymce.min.js"></script>   BAR BAR USE NAHI HOGA CDN EK BAR LAGA DIYA TO SBKE LIY HOGYA-->
+<script>
+    tinymce.init({
+        selector: '#txt_bio',
+    });
+</script>
+
+<!--/this ajax using for Data store in table form-->
+<script>
+    function data_table() {
+        $.ajax({
+            url: 'datatble',
+            type: 'get',
+            dataType: 'json',
+            success: function (data) {
+                // alert(data);
+                // console.log('data getting')
+                let rows = '';
+                var i = i;
+                data.rooms.forEach(room => {
+                    rows += `
+        <tr>
+            <td>${room.id}</td>
+            <td>${room.fname}</td>
+            <td>${room.lname}</td>
+            <td>${room.email}</td>
+            <td>${room.mobile}</td>
+            <td>${room.country}</td>
+            <td><img style="vertical-align: bottom;" width="120" src="/media/${room.image}" /></td>
+            <td><p data-placement="top" data-toggle="tooltip" title="Edit"><button id="edit" onclick="Editdata(${room.id})" class="btn btn-primary btn-xs" data-id="${room.id}" data-title="Edit"  ><span class="glyphicon glyphicon-pencil"></span></button></p></td>
+            <td><p data-placement="top" data-toggle="tooltip" title="Delete"><button onclick="ok_delete(${room.id})" class="btn btn-danger btn-xs" data-id="${room.id}" data-title="Delete"><span class="glyphicon glyphicon-trash"></span></button></p></td> 
+        </tr>`;
+                });
+                $('#mytable tbody').append(rows);
+            }
+        });
+    }
+    // this validation for edit or update button
+    //this script for mouse hover on edit or delete then showing them---
+    $(document).ready(function () {
+        $("#mytable #checkall").click(function () {
+            if ($("#mytable #checkall").is(':checked')) {
+                $("#mytable input[type=checkbox]").each(function () {
+                    $(this).prop("checked", true);
+                });
+
+            } else {
+                $("#mytable input[type=checkbox]").each(function () {
+                    $(this).prop("checked", false);
+                });
+            }
+        });
+
+        $("[data-toggle=tooltip]").tooltip();
+    });
+</script>
+
+<!--/this ajax using for Edit profile-->
+<script>
+    function Editdata(id) {
+        // alert(id);
+        // $('#myeditModal').modal('show');  //comment// table show as popup as ajax 
+        $.ajax({
+            url: 'edit_user',
+            type: 'post',
+            dataType: 'json',
+            data: {
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+                id: id
+
+            }
+        }).done(function (data) {
+            if (data) {
+                $('#myeditModal').modal('show');
+                //alert(data.hobby);
+                // alert(data.img_edit);
+                $('#txt_id').val(id);
+                $('#txt_fname').val(data.firstname);
+                $('#txt_lname').val(data.lastname);
+                $('#txt_email').val(data.email);
+                $('#txt_contact').val(data.phone);
+                $('#text_country_id').val(data.city);
+                $('input:radio[name=gender][value=' + data.gender + ']').prop("checked", true);
+                $('#txt_dob').val(data.dob);
+                $(tinymce.get('txt_bio').setContent(data.bio));
+                // $('#txt_bio').val(data.bio);
+                // $('input:checkbox[name=txt_hobby]').prop("checked", false);
+                $('input:checkbox[name=txt_hobby][value=' + data.prsn_hobby + ']').prop("checked", true);
+                // data = JSON.parse(image); // converts string of json to object
+                // $('#show_img').html('<img src="'+ data.prsn_img + '" />');
+                // $('input:file[name=new_img_field][value=' + data.prsn_img + ']').prop("checked", true);
+
+
+                var image_name = data.prsn_img;
+                // slicing are using for ("")remove from url 
+                var imagefy = (image_name.slice(1, -1));
+                var image_tag = "img src='"
+                var image_tag_close = "' style='height:50px;width:50px'/>"
+                $('#show_img').html("<" + image_tag + '/media/' + imagefy + image_tag_close);
+                // imgfo = encodeURIComponent(data.prsn_img)
+                alert(imagefy)
+                console.log(imagefy)
+            }
+            else {
+                alert("Form Not Submitted")
+            }
+            // This is the ajax.done() method, where you can fire events after the ajax method is complete 
+
+            // For instance, you could hide/display your add/remove button here
+        });
+    }
+
+</script>
+
+<!--/this ajax using for update profile-->
+<script type="text/javascript">
+    // debugger;
+    function update_account() {
+        var usr_id = document.getElementById("txt_id").value;
+        // alert(usr_id);
+        console.log(usr_id);
+        var txt_hobby = $('input[name=txt_hobby]:checked').val();
+        console.log(txt_hobby);
+        var n = document.getElementById("txt_fname").value;
+        var ln = document.getElementById("txt_lname").value;
+        var e = document.getElementById("txt_email").value;
+        var cntry = document.getElementById("text_country_id").value;
+        // var cntry_v = cntry.options[cntry.selectedIndex].value;
+        // var cntry_v1 = cntry.options[cntry.selectedIndex].text;
+        // var hobs = document.getElementById("txt_hobby");
+        var hobs = $('input[name=txt_hobby]:checked').val();
+        // var gndr = document.getElementById("gender");
+        var gndr = $('input[name=gender]:checked').val();
+        var con = document.getElementById("txt_contact").value;
+        var dob = document.getElementById("txt_dob").value;
+        var bio = tinymce.get('txt_bio').getContent();
+        var photo_field = $("#img_a").prop("files")[0];
+        console.log(photo_field);
+        console.log(hobs);
+
+        var data = new FormData();
+
+        data.append("csrfmiddlewaretoken", "{{ csrf_token }}");
+        data.append("u_id",usr_id);
+        data.append("first_data", n);
+        data.append("second_data", ln);
+        data.append("email_data", e);
+        data.append("phone_data", con);
+        data.append("cntry_data", cntry);
+        data.append("hobby_data", hobs);
+        data.append("gender_data", gndr);
+        data.append("photo_field", photo_field);
+        data.append("dob_data", dob);
+        data.append("bio_data", bio);
+        $.ajax({
+            url: 'update_data',
+            type: "POST",
+            contentType: false,
+            mimeType: "form-data",
+            data: data,
+            contentType: false, // The content type used when sending data to the server. Default is: "application/x-www-form-urlencoded"
+            processData: false, // To send DOMDocument or non processed data file it is set to false (i.e. data should not be in the form of string)
+            cache: false, // To unable request pages to be cached
+        }).done(function (response) {
+            alert("Your Form Submitted");
+            $('#mytable tbody').html('');  // 
+                data_table();
+            $("#myeditModal").modal('hide');
+            // setTimeout(function () {
+            //     window.location.reload();
+            // }, 3000);
+
+        });
+
+    }
+</script>
+
+<!--/this ajax using for delete button click get id -->
+<script>
+    function ok_delete(id) {
+        $('#delete').modal('show');
+        $('#del_id').val(id);
+    }
+</script>
+
+<!--/this ajax using for "are you sure-"if yes then delete -->
+<script>
+    function deletedata() {
+        var id = $('#del_id').val();
+        var data = new FormData();
+        data.append("csrfmiddlewaretoken", "{{ csrf_token }}");
+        data.append("updte_id",id)
+        $.ajax({
+            url: 'delete_user',
+            type: 'post',
+            dataType: 'json',
+            mimeType: "form-data",
+            data: data,
+            contentType: false, // The content type used when sending data to the server. Default is: "application/x-www-form-urlencoded"
+            processData: false, // To send DOMDocument or non processed data file it is set to false (i.e. data should not be in the form of string)
+            cache: false, // To unable request pages to be cached
+        }).done(function (response) {
+                //alert("Data Delete");
+                $('#mytable tbody').html('');
+                data_table();
+                $("#delete").modal('hide');
+        });
+    }
+</script>
+<script>
+    window.onload == data_table();
+</script>
+</script>

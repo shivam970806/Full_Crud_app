@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <!------ Include the above in your HEAD tag ---------->
+    <style>
+        body {
+            background-color: #73c9627c;
+        }
+
+        .centered-form {
+            margin-top: 20px;
+            margin-left: 20px;
+            margin-right: -514px;
+            margin-bottom: 32px;
+        }
+
+        .centered-form .panel {
+            background: rgba(255, 255, 255, 0.8);
+            box-shadow: rgba(0, 0, 0, 0.3) 20px 20px 20px;
+        }
+
+        .collapsible {
+            background-color: #777;
+            color: white;
+            cursor: pointer;
+            padding: 18px;
+            width: 100%;
+            border: none;
+            text-align: left;
+            outline: none;
+            font-size: 15px;
+        }
+
+        .active,
+        .collapsible:hover {
+            background-color: #555;
+        }
+
+        .content {
+            padding: 0 18px;
+            display: none;
+            overflow: hidden;
+            background-color: #f1f1f1;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <p> Register Now</p>
+        <button type="button" style="text-align: center;" class="collapsible">Click-here</button>
+        <div class="content"><br>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-6">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Please add your details<small> .It's neccessary!</small></h3>
+                            </div>
+                            <div class="panel-body">
+                                <form role="form" method="POST">
+                                    {%csrf_token%}
+                                    <div class="row">
+                                        <div class="col-xs-6 col-sm-6 col-md-6">
+                                            <div class="form-group">
+                                                <label class="">Full Name</label>
+                                                <input type="text" name="full_name" id="full_name"
+                                                    class="form-control input-sm" placeholder="Enter Full Name">
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-6 col-sm-6 col-md-6">
+                                            <div class="form-group">
+                                                <label class="">User Name</label>
+                                                <input type="text" name="user_name" id="user_name"
+                                                    class="form-control input-sm" placeholder="Enter User Name">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-6 col-sm-6 col-md-6">
+                                            <div class="form-group"> <label>Email</label>
+                                                <input type="email" name="email" id="email"
+                                                    class="form-control input-sm"
+                                                    placeholder="Enter Your Email Address">
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-6 col-sm-6 col-md-6">
+                                            <div class="form-group">
+                                                <label>Date of Birth</label>
+                                                <input type="date" name="dob" id="dob" class="form-control input-sm">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-xs-6 col-sm-6 col-md-6">
+                                            <div class="form-group">
+                                                <label>Password</label>
+                                                <input type="password" name="password" id="password"
+                                                    class="form-control input-sm" placeholder="Enter Your Password">
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-6 col-sm-6 col-md-6">
+                                            <div class="form-group">
+                                                <label>Re:password</label>
+                                                <input type="password" name="password_confirmation"
+                                                    id="password_confirmation" class="form-control input-sm"
+                                                    placeholder="Confirm Password">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <input type="submit" value="Register" class="btn btn-info btn-block">
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Login your id<small> .It's neccessary!</small></h3>
+                            </div>
+                            <div class="panel-body">
+                                <form role="form" method="POST">
+                                    {%csrf_token%}
+                                    <div class="row">
+                                        <div class="col-xs-6 col-sm-6 col-md-6">
+                                            <div class="form-group">
+                                                <label>User Id</label>
+                                                <input type="text" name="user_id" id="user_id"
+                                                    class="form-control input-sm" placeholder="Enter User Id">
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-6 col-sm-6 col-md-6">
+                                            <div class="form-group">
+                                                <label>Password</label>
+                                                <input type="text" name="password" id="password"
+                                                    class="form-control input-sm" placeholder="Enter Password">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <input type="submit" value="Login" class="btn btn-info btn-block">
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <script>
+                var coll = document.getElementsByClassName("collapsible");
+                var i;
+                for (i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function () {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.display === "block") {
+                            content.style.display = "none";
+                        } else {
+                            content.style.display = "block";
+                        }
+                    });
+                }
+            </script>
+        </div>
+    </div>
+</body>
+
+</html>
