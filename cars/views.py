@@ -1,14 +1,21 @@
+from json import encoder
 from django.contrib import auth, messages
 from django.shortcuts import get_object_or_404, render
 from django.shortcuts import render, redirect
 from django.core import serializers
-from django.http import JsonResponse, response
+from django.http import JsonResponse,response,HttpResponse
 import json
 from django.core.files.storage import FileSystemStorage
 from django.core.files.base import ContentFile
 import base64
 from cars.models import Insert_Data, Register
 from django.views.generic import View
+import csv
+import xlwt
+from datetime import datetime
+from django.template.loader import render_to_string
+from django.template.loader import get_template
+import tempfile
 
 # Create your views here.
 
@@ -201,3 +208,58 @@ def delete_user(request):
 
 def tinymce_prac(request):
     return render(request, 'tiny.html')
+
+"""export table data in CSV form"""
+def export_csv(request):
+    response = HttpResponse(content_type = 'text/csv')
+    response['Content-Disposition'] = 'attachment; filename=export-csv.csv'
+    writer = csv.writer(response, csv.excel)
+    # response.write(u'\ufeff'.encode('utf8'))
+    # writer = csv.writer(response)
+    writer.writerow(['First Name','Last Name','Email','Phone No','City'])
+    datas = Register.objects.all()
+
+    for data in datas:
+        writer.writerow([data.fname,data.lname,data.email,data.mobile,data.country])
+
+    return response
+
+"""export table data in Excel(.xls) form"""
+def export_excel(request):
+    response = HttpResponse(content_type = 'application/ms-excel')
+    response['Content-Disposition'] = 'attachment; filename=export-excel.xls'
+    wb = xlwt.Workbook(encoding = 'utf-8')
+    ws = wb.add_sheet('Register',cell_overwrite_ok=True)
+    row_num = 0
+    font_style = xlwt.XFStyle()
+    font_style.font.bold = True
+    columns = ['First Name','Last Name','Email','Phone No','City']
+    for column_num in range(len(columns)):
+        ws.write(row_num,column_num,columns[column_num],font_style)
+    font_style = xlwt.XFStyle()
+    rows = Register.objects.all().values_list('fname','lname','email','mobile','country')
+    for row in rows:
+        row_num+=1
+
+        for column_num in range(len(row)):
+            ws.write(row_num,column_num,str(row[column_num]),font_style)
+    wb.save(response)
+    return response
+
+"""export table data in PDF form"""
+def export_pdf(request):
+    response = HttpResponse(content_type = 'application/pdf')
+    response['Content-Disposition'] = 'attachment; filename=export-PDF.pdf'
+    response['Content-Transfer-Encoding']='binary'
+    data = Register.objects.all()
+    html_string = render_to_string('pdf-output.html',{'data':data})
+    html = render_to_pdf(response,string = html_string)
+    html.init_report()
+    result = html.write_pdf()
+    with tempfile.NamedTemporaryFile(delete=True) as output:
+        output.write(result)
+        output.flush()
+        output.open(output.name,'rb')
+        response.write(output.read())
+
+    return response()

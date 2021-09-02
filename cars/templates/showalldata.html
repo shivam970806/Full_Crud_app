@@ -175,6 +175,12 @@
     </div>
     <!--for table show-->
     <div class="container">
+        <!-- <a href="{% url 'export-csv' %}" class="btn btn-secondary" role="button" aria-pressed="true">Export CSV</a> -->
+        <br>
+        <a href="{% url 'export-csv' %}" class="btn btn-primary btn-sm active" role="button" aria-pressed="true">Export CSV</a>
+        <a href="{% url 'export-excel' %}" class="btn btn-primary btn-sm active"  role="button" aria-pressed="true">Export Excel</a>
+        <a href="{% url 'export-pdf' %}" class="btn btn-primary btn-sm active" role="button" aria-pressed="true">Export PDF</a>
+
         <!-- Button trigger modal -->
         <div class="row">
             <div class="col-md-12">
@@ -648,11 +654,11 @@
                 // alert(data);
                 // console.log('data getting')
                 let rows = '';
-                var i = i;
+                var i = 1;
                 data.rooms.forEach(room => {
                     rows += `
         <tr>
-            <td>${room.id}</td>
+            <td>${i}</td>
             <td>${room.fname}</td>
             <td>${room.lname}</td>
             <td>${room.email}</td>
@@ -662,6 +668,7 @@
             <td><p data-placement="top" data-toggle="tooltip" title="Edit"><button id="edit" onclick="Editdata(${room.id})" class="btn btn-primary btn-xs" data-id="${room.id}" data-title="Edit"  ><span class="glyphicon glyphicon-pencil"></span></button></p></td>
             <td><p data-placement="top" data-toggle="tooltip" title="Delete"><button onclick="ok_delete(${room.id})" class="btn btn-danger btn-xs" data-id="${room.id}" data-title="Delete"><span class="glyphicon glyphicon-trash"></span></button></p></td> 
         </tr>`;
+        i++;
                 });
                 $('#mytable tbody').append(rows);
             }

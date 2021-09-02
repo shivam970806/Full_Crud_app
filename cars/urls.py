@@ -18,6 +18,9 @@ urlpatterns = [
     path('update_data', views.update_data, name='update_data'),
     path('delete_user', views.delete_user, name='delete_user'),
     path('tinymce_prac', views.tinymce_prac, name='tinymce_prac'),
+    path('export-csv', views.export_csv, name='export-csv'),
+    path('export-excel', views.export_excel, name='export-excel'),
+    path('export-pdf', views.export_pdf, name='export-pdf'),
 
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
