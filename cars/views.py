@@ -3,12 +3,13 @@ from django.contrib import auth, messages
 from django.shortcuts import get_object_or_404, render
 from django.shortcuts import render, redirect
 from django.core import serializers
-from django.http import JsonResponse,response,HttpResponse
+from django.http import JsonResponse, response, HttpResponse
 import json
 from django.core.files.storage import FileSystemStorage
 from django.core.files.base import ContentFile
 import base64
 from cars.models import Insert_Data, Register
+from django.contrib.auth.models import User
 from django.views.generic import View
 import csv
 import xlwt
@@ -16,6 +17,8 @@ from datetime import datetime
 from django.template.loader import render_to_string
 from django.template.loader import get_template
 import tempfile
+from django.contrib.auth import authenticate, login 
+from django.contrib.auth import logout as logout1
 
 # Create your views here.
 
@@ -143,11 +146,7 @@ def edit_user(request):
         'prsn_img': my_image,
         'bio': edititem.bio,
     }
-    # print(edititem.gender)
-    # print(edititem.hobby)
-    # print(edititem.country)
-    # print(data.img_edit)
-    # print(my_image)
+    
     messages.info(request, 'Data get successfully')
     return JsonResponse(data)
 
@@ -206,60 +205,161 @@ def delete_user(request):
 #         data['message'] = "Error!"
 #     return JsonResponse(data)
 
+
 def tinymce_prac(request):
     return render(request, 'tiny.html')
 
+
 """export table data in CSV form"""
+
+
 def export_csv(request):
-    response = HttpResponse(content_type = 'text/csv')
+    response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename=export-csv.csv'
     writer = csv.writer(response, csv.excel)
     # response.write(u'\ufeff'.encode('utf8'))
     # writer = csv.writer(response)
-    writer.writerow(['First Name','Last Name','Email','Phone No','City'])
+    writer.writerow(['First Name', 'Last Name', 'Email', 'Phone No', 'City'])
     datas = Register.objects.all()
 
     for data in datas:
-        writer.writerow([data.fname,data.lname,data.email,data.mobile,data.country])
+        writer.writerow([data.fname, data.lname, data.email,
+                         data.mobile, data.country])
 
     return response
 
+
 """export table data in Excel(.xls) form"""
+
+
 def export_excel(request):
-    response = HttpResponse(content_type = 'application/ms-excel')
+    response = HttpResponse(content_type='application/ms-excel')
     response['Content-Disposition'] = 'attachment; filename=export-excel.xls'
-    wb = xlwt.Workbook(encoding = 'utf-8')
-    ws = wb.add_sheet('Register',cell_overwrite_ok=True)
+    wb = xlwt.Workbook(encoding='utf-8')
+    ws = wb.add_sheet('Register', cell_overwrite_ok=True)
     row_num = 0
     font_style = xlwt.XFStyle()
     font_style.font.bold = True
-    columns = ['First Name','Last Name','Email','Phone No','City']
+    columns = ['First Name', 'Last Name', 'Email', 'Phone No', 'City']
     for column_num in range(len(columns)):
-        ws.write(row_num,column_num,columns[column_num],font_style)
+        ws.write(row_num, column_num, columns[column_num], font_style)
     font_style = xlwt.XFStyle()
-    rows = Register.objects.all().values_list('fname','lname','email','mobile','country')
+    rows = Register.objects.all().values_list(
+        'fname', 'lname', 'email', 'mobile', 'country')
     for row in rows:
-        row_num+=1
+        row_num += 1
 
         for column_num in range(len(row)):
-            ws.write(row_num,column_num,str(row[column_num]),font_style)
+            ws.write(row_num, column_num, str(row[column_num]), font_style)
     wb.save(response)
     return response
 
+
 """export table data in PDF form"""
+
+
 def export_pdf(request):
-    response = HttpResponse(content_type = 'application/pdf')
+    response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = 'attachment; filename=export-PDF.pdf'
-    response['Content-Transfer-Encoding']='binary'
+    response['Content-Transfer-Encoding'] = 'binary'
     data = Register.objects.all()
-    html_string = render_to_string('pdf-output.html',{'data':data})
-    html = render_to_pdf(response,string = html_string)
+    html_string = render_to_string('pdf-output.html', {'data': data})
+    html = (response, html_string)
     html.init_report()
     result = html.write_pdf()
     with tempfile.NamedTemporaryFile(delete=True) as output:
         output.write(result)
         output.flush()
-        output.open(output.name,'rb')
+        output.open(output.name, 'rb')
         response.write(output.read())
 
     return response()
+
+
+def new_reg_form(request):
+    data = {'success': False}
+    if request.method == "POST":
+        firstname = request.POST.get('firstname')
+        lastname = request.POST.get('lastname')
+        username = request.POST.get('username')
+        password1 = request.POST.get('password1')
+        email = request.POST.get('email')
+        
+        if User.objects.filter(username=username).exists():
+            # print("username email is alredy exist")
+            msg1 = '**username is alredy exist!'
+            response = {
+                'msg' : msg1
+            }
+            # data['msg'] = msg
+            return JsonResponse(response)
+        elif User.objects.filter(email=email).exists():
+            # print("username email is alredy exist")
+            msg2 = '**email is alredy exist!'
+            response = {
+                'msg' : msg2
+            }
+            return JsonResponse(response)
+        else:
+            reg_form = User.objects.create_user(
+                first_name=firstname, last_name=lastname,username=username,password=password1,email=email )
+            reg_form.save()
+            messages.info(request, 'Data saved successfully')
+            data['success'] = True
+            msg3 = '!Submit Successfully'
+            response = {
+                'msg' : msg3
+            }
+            return JsonResponse(response)
+    else:
+        return render(request, 'new_reg_form.html')
+    return render(request, 'new_reg_form.html')
+
+def new_login(request):
+    if request.method == "POST":
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        print(username)
+        
+        user = authenticate(username=username, password=password)
+        if user is None:
+            user_queryset = User.objects.filter(email=username)
+            if user_queryset:
+                username = user_queryset[0].username
+                user = authenticate(username=username, password=password)
+        
+        if user is not None:
+            login(request, user)
+            messages.info(request, "login successful.")
+            # Redirect to a success page.
+            return redirect('/')
+        
+        else:
+            data = User.objects.filter(username=username).exists()
+            data1=User.objects.filter(password=password).exists()
+            if not data:
+                # print("username email is alredy exist")
+                msg = '**username/email invalid!'
+                # response = {
+                #     'msg' : msg1
+                # }
+            elif not data1:
+            # print("password email is alredy exist")
+                msg = '**password invalid!'
+            response = {
+                'msg' : msg
+            }
+            return JsonResponse(response)
+            messages.info(request, "username/email and password is incorrect.")
+            return render(request, "new_login.html")
+    else:
+        return render(request, "new_login.html")
+   
+def home(request):
+    return render(request,'home.html')
+
+
+def logout(request):
+    logout1(request)
+    messages.info(request, "You have successfully logged out.")
+    return redirect('/')

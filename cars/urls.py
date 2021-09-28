@@ -7,7 +7,8 @@ from django.conf import settings
 
 urlpatterns = [
     # path('/m', moter),
-    path('', views.reg, name='reg'),
+    path('', views.home, name='home'),
+    path('reg', views.reg, name='reg'),
     path('table', views.datashow, name='datashow'),
     path('del_data/<int:id>/', views.deletedata, name='del_data'),
     path('edititem/<int:id>/', views.editdata, name='edititem'),
@@ -21,6 +22,9 @@ urlpatterns = [
     path('export-csv', views.export_csv, name='export-csv'),
     path('export-excel', views.export_excel, name='export-excel'),
     path('export-pdf', views.export_pdf, name='export-pdf'),
+    path('new_reg_form', views.new_reg_form, name='new_reg_form'),
+    path('new_login', views.new_login, name='new_login'),
+    path('logout', views.logout, name='logout'),
 
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
